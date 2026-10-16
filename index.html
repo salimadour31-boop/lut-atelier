@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUT Atelier — Étalonnage et export .cube</title>
+<meta name="description" content="Créez vos LUT d'étalonnage cinématique dans le navigateur et exportez-les en .cube pour DaVinci Resolve, Premiere Pro, Final Cut, OBS.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <!-- Logo original : trois carrés RVB décalés -->
+    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+      <rect x="3" y="3" width="16" height="16" rx="3" fill="#ff5a4e" opacity=".85"/>
+      <rect x="9" y="9" width="16" height="16" rx="3" fill="#3ddc97" opacity=".75"/>
+      <rect x="13" y="13" width="16" height="16" rx="3" fill="#4f8cff" opacity=".75"/>
+    </svg>
+    <div>
+      <h1>LUT Atelier</h1>
+      <p class="tag" data-i18n="tagline">Étalonnage cinématique et export .cube, 100 % dans le navigateur</p>
+    </div>
+  </div>
+  <label class="lang">
+    <span class="sr" data-i18n="language">Langue</span>
+    <select id="lang">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+      <option value="kab">Taqbaylit</option>
+    </select>
+  </label>
+</header>
+
+<main class="layout">
+  <section class="stage">
+    <div class="toolbar">
+      <label class="btn">
+        <input type="file" id="fileImg" accept="image/*" hidden>
+        <span data-i18n="loadImage">Charger une image</span>
+      </label>
+      <button class="btn ghost" id="btnSample" data-i18n="sample">Image d'essai</button>
+      <label class="btn ghost">
+        <input type="file" id="fileCube" accept=".cube,text/plain" hidden>
+        <span data-i18n="loadCube">Importer une LUT .cube</span>
+      </label>
+      <span id="baseInfo" class="chip" hidden></span>
+    </div>
+
+    <div class="canvas-wrap" id="drop">
+      <canvas id="view" aria-label="Aperçu"></canvas>
+      <div class="split-line" id="splitLine"><span data-i18n="before">Avant</span><span data-i18n="after">Après</span></div>
+      <p class="drop-hint" data-i18n="dropHint">Glissez une image ou une LUT .cube ici</p>
+    </div>
+
+    <div class="row">
+      <label class="inline"><span data-i18n="compare">Comparer avant/après</span>
+        <input type="range" id="split" min="0" max="100" value="50"></label>
+      <label class="inline check"><input type="checkbox" id="showScope" checked> <span data-i18n="scope">Parade RVB</span></label>
+    </div>
+    <canvas id="scope" class="scope" width="600" height="120" aria-label="Parade RVB"></canvas>
+
+    <div class="export">
+      <label class="inline"><span data-i18n="lutSize">Taille de la LUT</span>
+        <select id="lutSize">
+          <option value="17">17³</option>
+          <option value="33" selected>33³</option>
+          <option value="65">65³</option>
+        </select>
+      </label>
+      <input type="text" id="lutName" value="mon-etalonnage" aria-label="Nom" maxlength="40">
+      <button class="btn" id="btnCube" data-i18n="exportCube">Exporter .cube</button>
+      <button class="btn ghost" id="btnPng" data-i18n="exportPng">Exporter l'image</button>
+      <button class="btn ghost" id="btnHald" data-i18n="exportHald">Exporter Hald CLUT</button>
+    </div>
+    <p class="note" data-i18n="privacy">Aucune image n'est envoyée : tout le calcul se fait sur votre appareil.</p>
+  </section>
+
+  <aside class="panel">
+    <h2 data-i18n="presets">Préréglages</h2>
+    <div class="presets" id="presets"></div>
+
+    <div id="controls"></div>
+
+    <div class="row end">
+      <button class="btn ghost" id="btnReset" data-i18n="reset">Réinitialiser</button>
+      <button class="btn ghost" id="btnCopy" data-i18n="copyLink">Copier le lien du réglage</button>
+    </div>
+  </aside>
+</main>
+
+<footer class="foot">
+  <span data-i18n="footer">Logiciel libre sous licence MIT.</span>
+  <a href="https://github.com/salimadour31-boop/lut-atelier">GitHub</a>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="i18n.js"></script>
+<script src="grade.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
